@@ -17,6 +17,13 @@ async def load_extensions():
 async def on_ready(): #program ilk başladığında
     await load_extensions()
     print("uyandim") 
+    
+    
+@Bot.event
+async def on_command_error(ctx,exeption):
+    if isinstance(exeption,discord.ext.commands.errors.CommandNotFound):
+        await ctx.send("yazdığınız bot komutu botumuzda bulunmuyor")
+    
 
 @Bot.command()
 async def kick(ctx, member: discord.Member,*,sebep):
@@ -28,8 +35,6 @@ async def kick(ctx, member: discord.Member,*,sebep):
 async def ban(ctx, member: discord.Member,*,sebep):
     await member.ban(reason=sebep)
     await ctx.send("üye sunucudan yasaklandı")
-
-
 
 
 Bot.run("token")
