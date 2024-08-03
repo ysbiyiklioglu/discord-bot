@@ -1,24 +1,66 @@
 import discord
+import time
 from discord.ext import commands
 
-class admin_yeni(commands.Cog):
+class Admin(commands.Cog):
+    
+    
     def __init__(self, bot):
         self.bot = bot
     @commands.command(hidden=True)
     async def yenile(self, ctx, value:str) :
         
-        dizin= "commands."
+        dizin= "cogs."
         
         try:
             if(ctx.author.guild_permissions.administrator):
-              self.bot.reload_extension(dizin + value)
+              await self.bot.unload_extension(dizin + value)
+              await self.bot.load_extension(dizin + value)
               await ctx.send(value+ " dosyası yenilendi")
             
             else:
                 await ctx.send("bu komut için yetkiniz yok")       
         except ImportError as e:
             print(e)
-            
-            
+    
+        
+    @commands.command(aliases=["clear"])        
+    async def clean(self,ctx,num:int):
+        
+        min=0
+        max=100
+
+        if(ctx.author.guild_permissions.administrator):
+            if(num > min and num<=max):
+                Channel = ctx.channel
+                message = [msg async for msg in Channel.history(limit=num)]
+
+
+                
+                message_2 = await ctx.send("{} adet mesaj bulnuyor".format(num))
+                time.sleep(1)
+                await message_2.edit(content="{} adet mesaj siliniyor".format(num))
+                time.sleep(0.5)
+                await Channel.delete_messages(message)
+                await message_2.edit(content="{} adet mesaj silindi...".format(num))
+                time.sleep(0.5)
+                message = [msg async for msg in Channel.history(limit=1)]
+                await Channel.delete_messages(message)
+            else:
+                await ctx.send("en fazla {} mesaj silebilirim".format(max))    
+        else:
+            await ctx.send("bu komut için yetkiniz yok")
+          
+    @commands.command()
+    async def rol(self,ctx, member:discord.Member):
+        try:
+            emb=discord.Embed(color=0xff0080)
+            emb.add_field(name="/>",value="**"+ member.display_name+"** adlı kullanıcın rolü: **{}**".format(member.top_role))
+            emb.set_thumbnail(url=member.avatar)
+            await ctx.send(embed=emb)
+        except ImportError as e:
+            print(e)     
+          
+          
 async def setup(bot):
-    await bot.add_cog(admin_yeni(bot))        
+    await bot.add_cog(Admin(bot))        
