@@ -19,18 +19,12 @@ async def on_ready(): #program ilk başladığında
     print("uyandim") 
     await load_extensions()
     
-
-    
-
-@Bot.command()
-async def kick(ctx, member: discord.Member,*,sebep):
-    await member.kick(reason=sebep)
-    await ctx.send(f"**{member.mention}**, **{sebep}** sebebiyle sunucudan atıldı")
-    
-
-@Bot.command()
-async def ban(ctx, member: discord.Member,*,sebep):
-    await member.ban(reason=sebep)
-    await ctx.send("üye sunucudan yasaklandı")
-
+@Bot.event
+async def on_member_join(member: discord.Member):
+    Channel =discord.utils.get(member.guild.channels, name="yeni-gelenler")
+    if Channel != None or Channel != 0:
+        await Channel.send("Sunucumuza {} adında bir kullanıcı katıldı".format(member.mention))
+    else:
+        print("sunucudaki belirtilen kanal bulunamadı")
+        
 Bot.run("token")
