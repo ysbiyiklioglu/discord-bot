@@ -24,7 +24,15 @@ class User(commands.Cog):
         emb.add_field(name="sunucuya ilk giriş",value=member.joined_at) 
         emb.set_thumbnail(url=member.avatar)
         await ctx.send(embed=emb)
-
+    @commands.command()
+    async def rol(self,ctx, member:discord.Member):
+        try:
+            emb=discord.Embed(color=0xff0080)
+            emb.add_field(name="/>",value="**"+ member.display_name+"** adlı kullanıcın rolü: **{}**".format(member.top_role))
+            emb.set_thumbnail(url=member.avatar)
+            await ctx.send(embed=emb)
+        except ImportError as e:
+            print(e)     
 async def setup(bot):
     
     await bot.add_cog(User(bot))
