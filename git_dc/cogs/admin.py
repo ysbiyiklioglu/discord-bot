@@ -7,8 +7,8 @@ class Admin(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-    @commands.command(hidden=True)
-    async def yenile(self, ctx, value:str) :
+    @commands.command(hidden= True)
+    async def yenile(self,ctx , value:str) :
         
         dizin= "cogs."
         
@@ -16,6 +16,7 @@ class Admin(commands.Cog):
             if(ctx.author.guild_permissions.administrator):
                     await self.bot.unload_extension(dizin + value)
                     await self.bot.load_extension(dizin + value)
+                    await self.bot.tree.sync()
                     await ctx.send(value+ " dosyası yenilendi")
 
             else:
@@ -37,7 +38,7 @@ class Admin(commands.Cog):
 
 
                 
-                message_2 = await ctx.send("{} adet mesaj bulnuyor".format(num))
+                message_2 = await ctx.send("{} adet mesaj bulunuyor".format(num))
                 time.sleep(1)
                 await message_2.edit(content="{} adet mesaj siliniyor".format(num))
                 time.sleep(0.5)

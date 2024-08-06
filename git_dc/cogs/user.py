@@ -1,13 +1,14 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 
 class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command()
-    async def kullanıcı(self,ctx, member: discord.Member):
-        if "superbot" in [role.name for role in member.roles]:
+    @app_commands.command()
+    async def kullanıcı(self,interaction: discord.Integration, member: discord.Member):
+        if "bot" in [role.name for role in member.roles]:
                 is_bot = "evet"
 
         else:
@@ -23,14 +24,14 @@ class User(commands.Cog):
         emb.add_field(name="hesabı ne zaman kuruldu",value=member.created_at)
         emb.add_field(name="sunucuya ilk giriş",value=member.joined_at) 
         emb.set_thumbnail(url=member.avatar)
-        await ctx.send(embed=emb)
-    @commands.command()
-    async def rol(self,ctx, member:discord.Member):
+        await interaction.response.send_message(embed=emb)
+    @app_commands.command()
+    async def rol(self,interaction: discord.Integration, member:discord.Member):
         try:
             emb=discord.Embed(color=0xff0080)
             emb.add_field(name="/>",value="**"+ member.display_name+"** adlı kullanıcın rolü: **{}**".format(member.top_role))
             emb.set_thumbnail(url=member.avatar)
-            await ctx.send(embed=emb)
+            await interaction.response.send_message(embed=emb)
         except ImportError as e:
             print(e)     
 async def setup(bot):

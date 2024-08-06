@@ -11,13 +11,19 @@ for filename in os.listdir("./cogs"):
 async def load_extensions():
     for ext in initial_extensions:
         await Bot.load_extension(ext)
+        print("loading "+ ext)
         
         
 @Bot.event
 async def on_ready(): #program ilk başladığında
-    
-    print("uyandim") 
     await load_extensions()
+    print("uyandim") 
+    
+    try:
+        synced= await Bot.tree.sync()
+        print(f"synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
     
 @Bot.event
 async def on_member_join(member: discord.Member):
@@ -26,5 +32,5 @@ async def on_member_join(member: discord.Member):
         await Channel.send("Sunucumuza {} adında bir kullanıcı katıldı".format(member.mention))
     else:
         print("sunucudaki belirtilen kanal bulunamadı")
-        
+
 Bot.run("token")
