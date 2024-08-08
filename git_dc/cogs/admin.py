@@ -26,7 +26,7 @@ class Admin(commands.Cog):
     
         
     @commands.command(aliases=["clear"])        
-    async def clean(self,ctx,num:int):
+    async def temizle(self,ctx,num:int):
         
         min=0
         max=100
@@ -86,4 +86,4 @@ class Admin(commands.Cog):
         
             
 async def setup(bot):
-    await bot.add_cog(Admin(bot))        
+    await bot.add_cog(Admin(bot))            

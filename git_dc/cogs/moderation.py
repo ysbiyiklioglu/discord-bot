@@ -7,7 +7,7 @@ class Moderation(commands.Cog):
     @commands.command()
     async def bilgi(self, ctx):
      embed=discord.Embed(title="Bot Hakkında", color=0xc22e2e)
-     embed.add_field(name="bot_version", value="0.1", inline=True)
+     embed.add_field(name="bot_version", value="0.11", inline=True)
      embed.add_field(name="bot_name", value="superbot", inline=True)
      embed.add_field(name="bot_creator", value="windness", inline=True)
      await ctx.send(embed=embed)    
