@@ -52,7 +52,7 @@ class steamCon(commands.Cog):
             except Exception as e:
                 await interaction.response.send_message(f"**{id} id'sine sahip sahip Kullanıcı bilgileri bulunamadı.**")
                 if e=="400 Bad Request <html><head><title>Bad Request</title></head><body><h1>Bad Request</h1>Please verify that all required parameters are being sent</body></html>":
-                        (f"{id} id'sine sahip sahip Kullanıcı bilgileri bulunamadı.")
+                        print(f"{id} id'sine sahip sahip Kullanıcı bilgileri bulunamadı.")
                 return
 
             # VAC (Valve Anti-Cheat) bilgilerini almak için kontrol yapıyoruz.
